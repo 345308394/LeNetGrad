@@ -24,6 +24,9 @@ def grad():
     correct = 0
     total = 0
 
+    final_1st_grad = []
+    final_2nd_grad = []
+
     for data in test_loader:
         test_inputs, labels = data
         outputs_test = model(test_inputs)
@@ -35,13 +38,18 @@ def grad():
         ys = loss  # put your own loss into ys
         grads = torch.autograd.grad(ys, xs, create_graph=True)  # first order gradient
         print(grads)
+        final_1st_grad.append(grads.numpy())
         grads2 = get_second_order_grad(grads, xs)  # second order gradient
         print(grads2)
+        final_2nd_grad.append(grads2.numpy())
         total += labels.size(0)
         correct += (predicted == labels).sum()
 
     print('识别准确率为：{}%'.format(100 * correct.item() / total))
 
+    # 计算一阶和二阶平均数
+    print("1st_grad", np.mean(final_1st_grad, axis=0))
+    print("2nd_grad", np.mean(final_2nd_grad, axis=0))
     # 输出并保存权值和一阶导数
     # print("conv1.weight:", model.conv1.weight)
     # print("conv1.weight.grad:", model.conv1.weight.grad)
