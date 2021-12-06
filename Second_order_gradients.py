@@ -1,8 +1,4 @@
-# Author: Guo-qing Jiang (jianggq@mit.edu)
-# Pytorch second oder gradient calculation for the diagonal of Hessian matrix 
-# feel free to copy
 import torch
-
 
 def get_second_order_grad(grads, xs):
     start = time.time()
