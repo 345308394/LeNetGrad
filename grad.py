@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Second_order_gradients import get_second_order_grad
+from second_order_gradients import get_second_order_grad
 from model import Model
 import numpy as np
 import torch
