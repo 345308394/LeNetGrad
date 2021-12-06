@@ -1,6 +1,9 @@
 import torch
+import time
+import numpy as np
 
 def get_second_order_grad(grads, xs):
+    device = torch.device("cuda")
     start = time.time()
     grads2 = []
     for j, (grad, x) in enumerate(zip(grads, xs)):
@@ -12,7 +15,7 @@ def get_second_order_grad(grads, xs):
             g2 = torch.autograd.grad(g, x, retain_graph=True)[0]
             g2 = torch.reshape(g2, [-1])
             grads2_tmp.append(g2[count].data.cpu().numpy())
-        grads2.append(torch.from_numpy(np.reshape(grads2_tmp, x.size())).to(DEVICE_IDS[0]))
+        grads2.append(torch.from_numpy(np.reshape(grads2_tmp, x.size())).to(device))
         print('Time used is ', time.time() - start)
     for grad in grads2:  # check size
         print(grad.size())
@@ -20,10 +23,10 @@ def get_second_order_grad(grads, xs):
     return grads2
 
 # datainput/model/optimizer setup is ommited here
-optimizer.zero_grad()
-xs = optimizer.param_groups[0]['params']
-ys = loss  # put your own loss into ys
-
-grads = torch.autograd.grad(ys, xs, create_graph=True)  # first order gradient
-
-grads2 = get_second_order_grad(grads, xs)  # second order gradient
+# optimizer.zero_grad()
+# xs = optimizer.param_groups[0]['params']
+# ys = loss  # put your own loss into ys
+#
+# grads = torch.autograd.grad(ys, xs, create_graph=True)  # first order gradient
+#
+# grads2 = get_second_order_grad(grads, xs)  # second order gradient
