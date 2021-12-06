@@ -23,7 +23,7 @@ def grad():
 
     correct = 0
     total = 0
-
+    # 弄个列表，来存放每次计算的1、2阶导数，最后区每次计算的对应位置的平均值
     final_1st_grad = []
     final_2nd_grad = []
 
